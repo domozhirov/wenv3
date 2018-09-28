@@ -1,0 +1,70 @@
+{
+  "name": "wenv3",
+  "version": "3.0.0",
+  "description": "Web Enviroment",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.oml.ru:wenv/wenv3.git"
+  },
+  "keywords": [
+    "wenv",
+    "web",
+    "enviroment"
+  ],
+  "author": "Mikhail Domozhirov",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "fs-extra": "^7.0.0",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "lodash": "^4.17.11",
+    "node-sass": "^4.9.3",
+    "opn": "^5.1.0",
+    "request": "^2.88.0",
+    "serve-index": "^1.9.1",
+    "socket.io": "^2.1.1",
+    "systray": "^1.0.5",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "@types/chokidar": "^1.7.5",
+    "@types/fs-extra": "^5.0.4",
+    "@types/js-cookie": "^2.2.0",
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.32",
+    "@types/koa-static": "^4.0.0",
+    "@types/koa-views": "^2.0.3",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^8.0.28",
+    "@types/node-sass": "^3.10.32",
+    "@types/opn": "^5.1.0",
+    "@types/request": "^2.47.1",
+    "@types/serve-index": "^1.7.29",
+    "@types/socket.io": "^1.4.38",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.2.0",
+    "ts-loader": "^5.2.1",
+    "typescript": "^3.0.3",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "bin": {
+    "wenv": "./dist/index.js"
+  },
+  "pre-commit": [
+    "build"
+  ]
+}
