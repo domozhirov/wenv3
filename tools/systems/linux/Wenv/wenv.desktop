@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Wenv 3
+Type=Application
+Comment=Web Enviroment
+Exec=/opt/Wenv/Wenv
+TryExec=/opt/Wenv/Wenv
+Icon=/opt/Wenv/AppIcon.png
+Categories=Development;
+StartupNotify=true
