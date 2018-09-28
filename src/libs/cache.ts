@@ -5,7 +5,7 @@ import * as request from "request";
 import * as url from "url";
 
 export default async (file: string): Promise<any> => {
-    const local: string = path.join(__dirname, "../var/cache", file);
+    const local: string = path.join(require('os').tmpdir(), file);
 
     if (fs.existsSync(local)) {
         return Promise.resolve(local);

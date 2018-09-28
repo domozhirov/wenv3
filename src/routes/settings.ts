@@ -10,7 +10,7 @@ const settings = Settings.getInstance();
 
 router.get(/^\/settings\/?(css|js)?\/?(.+\.(js|css)$)?/, async (ctx: Context) => {
     const file = ctx.request.path.replace(/\/+$/, "");
-    const root = path.join(__dirname, '../static/views');
+    const root = path.join(__dirname, 'static/views');
 
     if (file === '/settings') {
         ctx.type = "text/html";

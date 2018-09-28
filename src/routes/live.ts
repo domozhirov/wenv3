@@ -9,7 +9,7 @@ let content: string;
 
 export default router.all("/live.min.js", async (ctx: Context) => {
     if (! content) {
-        content = fs.readFileSync(path.join(__dirname, "../../client/", ctx.path), "utf8");
+        content = fs.readFileSync(path.join(__dirname, "static/client/", ctx.path), "utf8");
     }
     ctx.body = content;
     ctx.type = "text/javascript";
