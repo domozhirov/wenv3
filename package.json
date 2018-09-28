@@ -52,6 +52,7 @@
     "@types/serve-index": "^1.7.29",
     "@types/socket.io": "^1.4.38",
     "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "ts-loader": "^5.2.1",
     "typescript": "^3.0.3",

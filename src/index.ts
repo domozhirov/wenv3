@@ -30,7 +30,7 @@ switch (process.platform) {
         iconName = 'icon.png';
 }
 
-const icon = path.join(__dirname, `../static/${iconName}`);
+const icon = path.join(__dirname, `static/${iconName}`);
 const tray = new SysTray({
     menu: {
         icon: fs.readFileSync(icon).toString('base64'),

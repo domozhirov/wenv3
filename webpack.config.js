@@ -1,6 +1,6 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
 const nodeModules = {};
 fs.readdirSync('node_modules')
@@ -13,7 +13,8 @@ fs.readdirSync('node_modules')
 
 
 module.exports = {
-    entry: './src/index.ts',
+    context: path.join(__dirname, 'src'),
+    entry: './index.ts',
     target: 'node',
     devtool: 'inline-source-map',
     module: {
@@ -25,20 +26,23 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new CleanWebpackPlugin('dist'),
+        new CopyWebpackPlugin([{ from: 'static', to: 'static' }])
+    ],
     devServer: {
         contentBase: './dist'
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        modules: [path.resolve(__dirname, './src'), 'node_modules'],
-        alias: {
-            static: path.resolve(__dirname, 'static'),
-            libs: path.resolve(__dirname, 'src/libs/')
-        }
     },
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
     },
     externals: nodeModules,
+    node: {
+        __dirname: false,
+        __filename: false,
+    }
 };

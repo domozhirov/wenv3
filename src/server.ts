@@ -1,3 +1,4 @@
+import * as path from 'path'
 import * as Koa from "koa";
 import * as koaBody  from "koa-body";
 import views = require('koa-views')
@@ -16,7 +17,7 @@ import Settings from './libs/settings';
 const settings = Settings.getInstance();
 const app: Koa = new Koa();
 
-app.use(views(__dirname + '/../static/views', {
+app.use(views(path.join(__dirname, 'static/views'), {
     map: {
         html: 'underscore'
     }
