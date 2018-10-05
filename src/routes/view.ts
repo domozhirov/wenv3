@@ -13,8 +13,8 @@ export default router.all(/.+\.(htm|html|tpl)(\?.*)?/, async (ctx: Context) => {
 
     let body: string = fs.readFileSync(`${settings.projectDir}${file}`, "utf8");
 
-    if (body) {
-        body = body.replace("</body>", `<script src="/live.min.js"></script>\n</body>`);
+    if (settings.live && body) {
+        body = body.replace("</body>", `\n<script src="/live.min.js"></script>\n</body>`);
     }
 
     ctx.body = body;

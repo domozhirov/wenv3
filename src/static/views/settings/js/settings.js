@@ -44,14 +44,12 @@
         for (let element of form.elements) {
             switch (element.name) {
                 case 'port':
+                case 'live':
                 case 'socketPort':
                     body.push(`${element.name}=${~~element.value}`);
                     break;
                 case 'projectDir':
                     body.push(`${element.name}=${element.value}`);
-                    break;
-                case 'live':
-                    body.push(`${element.name}=${element.checked}`);
                     break;
             }
         }

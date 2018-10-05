@@ -26,7 +26,9 @@ app.use(views(path.join(__dirname, 'static/views'), {
 app.use(koaBody());
 app.use(error);
 // app.use(index);
-app.use(live);
+if (settings.live) {
+    app.use(live);
+}
 app.use(sass);
 app.use(list);
 app.use(view);
@@ -36,7 +38,8 @@ app.use(cache);
 
 const server = app.listen(settings.port, "localhost", () => {
     const host = `http://127.0.0.1:${settings.port}`;
-    console.log("Server listening on " + host);
+
+    // TODO: Logger
 });
 
 if (settings.live) {

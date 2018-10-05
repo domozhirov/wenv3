@@ -7,7 +7,7 @@ enum Renderer {
 }
 
 class Settings {
-    public static path: string = `${homedir}/.wenv3`
+    public static path: string = `${homedir}/.wenv3`;
 
     public static instance: Settings;
 
@@ -49,6 +49,18 @@ class Settings {
     public set(settings) {
         for (let key in this) {
             if (settings.hasOwnProperty(key)) {
+                switch (typeof this[key]) {
+                    case 'boolean':
+                        settings[key] = !!+settings[key];
+                        break;
+                    case 'number':
+                        settings[key] = ~~settings[key];
+                        break;
+                    case 'string':
+                        settings[key] = `${settings[key]}`;
+                        break;
+                }
+
                 this[key] = settings[key];
             }
         }
