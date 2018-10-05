@@ -6,7 +6,7 @@ import Settings from './settings';
 
 const settings = Settings.getInstance();
 
-const dir: string = "/Users/domozhirov/Documents/wenv3";
+const dir: string = settings.projectDir;
 let isReady: boolean = false;
 
 export default (server: Server) => {
