@@ -52,6 +52,7 @@
     "@types/request": "^2.47.1",
     "@types/serve-index": "^1.7.29",
     "@types/socket.io": "^1.4.38",
+    "@types/webpack-env": "^1.13.6",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",

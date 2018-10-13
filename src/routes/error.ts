@@ -1,6 +1,6 @@
 import {Context} from "koa";
 
-export default async (ctx: Context, next: () => Promise<any>) => {
+export = async (ctx: Context, next: () => Promise<any>) => {
     try {
         await next();
     } catch (err) {

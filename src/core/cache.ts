@@ -2,16 +2,16 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import {Request, Response} from "request";
 import * as request from "request";
-import * as url from "url";
+import {resolve} from "url";
 
-export default async (file: string): Promise<any> => {
+export default async (file: string, url: string): Promise<any> => {
     const local: string = path.join(require('os').tmpdir(), file);
 
     if (fs.existsSync(local)) {
         return Promise.resolve(local);
     }
 
-    const remote: string = url.resolve("http://dumper.demojs0.oml.ru/", file);
+    const remote: string = resolve(url, file);
 
     let loaded;
 

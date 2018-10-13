@@ -1,6 +1,6 @@
-import list from "../libs/list";
-import Settings from '../libs/settings';
+import list from "../core/list";
+import Settings from '../core/settings';
 
 const settings = Settings.getInstance();
 
-export default list(settings.projectDir);
+export = list(settings.projectDir);

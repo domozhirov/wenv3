@@ -1,13 +1,10 @@
 import * as fs from 'fs-extra';
 import {homedir} from 'os';
 
-enum Renderer {
-    smarty = 'smarty',
-    none = 'none'
-}
-
 class Settings {
-    public static path: string = `${homedir}/.wenv3`;
+    public static dir: string = `${homedir}.wenv3/`;
+
+    public static path: string = `${homedir}/wenv3/settings.json`;
 
     public static instance: Settings;
 
@@ -17,13 +14,17 @@ class Settings {
 
     public projectDir: string = `${homedir}/`;
 
-    public renderer: Renderer = Renderer.none;
+    public renderer: string = 'none';
 
     public live: boolean = true;
 
-    public static getInstance(): Settings {
+    public static getInstance(reload: boolean = false): Settings {
         if (!Settings.instance) {
             Settings.instance = new Settings;
+            Settings.instance.load();
+        }
+
+        if (reload) {
             Settings.instance.load();
         }
 

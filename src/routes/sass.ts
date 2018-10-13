@@ -3,8 +3,8 @@ import {Context} from "koa";
 import * as Router from "koa-router";
 import {Options, render, Result} from "node-sass";
 import * as path from "path";
-import cache from "../libs/cache";
-import Settings from '../libs/settings';
+import cache from "../core/cache";
+import Settings from '../core/settings';
 
 const settings = Settings.getInstance();
 
@@ -37,7 +37,7 @@ async function compileSass(url: string, options: Options): Promise<any> {
                 })
             } else if (file.indexOf("global:") === 0) {
                 file = path.join("/g/", file.slice(7));
-                cache(file).then((file) => {
+                cache(file, "http://dumper.demojs0.oml.ru/").then((file) => {
                     done({file: file});
                 }).catch((err) => {
                     done(err);

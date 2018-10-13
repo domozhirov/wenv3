@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import {Context} from 'koa';
 import * as Router from "koa-router";
-import Settings from '../libs/settings'
+import Settings from '../core/settings'
 
 const router: Router = new Router();
 const settings: Settings = Settings.getInstance();

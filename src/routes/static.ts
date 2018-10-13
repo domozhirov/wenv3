@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import {Context} from "koa";
 import * as send from "koa-send";
-import Settings from '../libs/settings'
+import Settings from '../core/settings'
 import * as path from "path";
 
 const settings = Settings.getInstance();
 
-export default async (ctx: Context, next: () => Promise<any>) => {
+export = async (ctx: Context, next: () => Promise<any>) => {
     const exist = fs.existsSync(`${ settings.projectDir}${ctx.path}`);
 
     if (exist) {
