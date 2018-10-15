@@ -1,0 +1,20 @@
+{
+    "name": "wenv/smarty",
+    "type": "project",
+    "require": {
+        "smarty/smarty": "2.6.30"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "php/core",
+            "Controllers\\": "php/controllers"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Domozhirov",
+            "email": "michael@domozhirov.ru"
+        }
+    ]
+}
