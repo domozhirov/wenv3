@@ -29,16 +29,14 @@ class App {
 
     public run() {
         this.tray.onClick(async action => {
-            this._changeAction();
             switch (action.seq_id) {
                 case 0:
-                    await this.server.start();
-                    break;
                 case 1:
-                    await this.server.restart();
-                    break;
                 case 2:
-                    await this.server.stop();
+                    const title = action.item.title.toLowerCase();
+                    this._changeAction('disable');
+                    await this.server[title]();
+                    this._changeAction(title);
                     break;
                 case 3:
                     break;
@@ -46,15 +44,12 @@ class App {
                     this.tray.kill();
                     break;
             }
-
-            this._changeAction(action.item.title.toLowerCase());
         });
 
         this.tray.onExit((code, signal) => {
             setTimeout(() =>
                 process.exit(0), 2000)
         });
-
     }
 
     private _getIcon() {
@@ -102,16 +97,18 @@ class App {
                 break;
         }
 
-        status.forEach((item, index) => {
-            this.tray.sendAction({
-                type: 'update-item',
-                item: {
-                    ...items[index],
-                    enabled: item,
-                },
-                seq_id: index,
+        if (status) {
+            status.forEach((item, index) => {
+                this.tray.sendAction({
+                    type: 'update-item',
+                    item: {
+                        ...items[index],
+                        enabled: item,
+                    },
+                    seq_id: index,
+                });
             });
-        });
+        }
     }
 }
 
