@@ -11,7 +11,7 @@ class Config implements ProxyHandler<{}> {
 
     public constructor(configPath: string, configDir: string) {
         if (existsSync(configPath)) {
-            this._main = __non_webpack_require__(configPath);
+            this._main = require(configPath);
         }
 
         this._configPath = configPath;
@@ -24,9 +24,9 @@ class Config implements ProxyHandler<{}> {
 
         if (existsSync(part)) {
             if (Object.keys(config).length) {
-                config = Object.assign(config, __non_webpack_require__(part));
+                config = Object.assign(config, require(part));
             } else {
-                config = __non_webpack_require__(part);
+                config = require(part);
             }
         } else if (!Object.keys(config).length) {
             throw new Error(`Configuration property ${property} not found`);

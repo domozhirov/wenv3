@@ -1,23 +1,117 @@
-import Event from './event';
-import * as Koa from "koa";
+import SysTray from 'systray'
+import Server from "./server";
+import Config from "./config";
+import {join} from "path";
+import {readFileSync} from "fs";
 
 class App {
-    public event: Event = new Event;
+    public static config: Config;
 
-    public config: object;
+    public server: Server;
 
-    public server: Koa = new Koa;
+    private tray: SysTray;
 
-    public constructor(config) {
-        config.routes.forEach(route => {
-            this.server.use(require( `../routes/${route}`));
-        });
+    private config;
 
+    constructor(server: Server, config) {
+        this.server = server;
         this.config = config;
+
+        this.tray = new SysTray({
+            menu: {
+                icon: this._getIcon(),
+                title: '',
+                tooltip: '',
+                items: this.config.app.tray
+            }
+        });
     }
 
     public run() {
+        this.tray.onClick(async action => {
+            this._changeAction();
+            switch (action.seq_id) {
+                case 0:
+                    await this.server.start();
+                    break;
+                case 1:
+                    await this.server.restart();
+                    break;
+                case 2:
+                    await this.server.stop();
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    this.tray.kill();
+                    break;
+            }
 
+            this._changeAction(action.item.title.toLowerCase());
+        });
+
+        this.tray.onExit((code, signal) => {
+            setTimeout(() =>
+                process.exit(0), 2000)
+        });
+
+    }
+
+    private _getIcon() {
+        let iconName, iconPath;
+
+        switch (process.platform) {
+            case 'darwin':
+                const exec = require('child_process').execSync;
+                const gpref = exec('defaults read .GlobalPreferences').toString();
+
+                if (gpref.indexOf('AppleInterfaceStyle = Dark') !== -1) {
+                    iconName = 'white.icns';
+                } else {
+                    iconName = 'dark.icns';
+                }
+
+                break;
+            case 'win32':
+                iconName = 'icon.ico';
+
+                break;
+            default:
+                iconName = 'icon.png';
+        }
+
+        iconPath = join(__dirname, `../static/${iconName}`);
+
+        return readFileSync(iconPath).toString('base64');
+    }
+
+    private _changeAction(action = 'disable') {
+        let items = this.config.app.tray.slice(0, 3);
+        let status;
+
+        switch (action) {
+            case 'start':
+            case 'restart':
+                status = [false, true, true];
+                break;
+            case 'stop':
+                status = [true, false, false];
+                break;
+            case 'disable':
+                status = [false, false, false];
+                break;
+        }
+
+        status.forEach((item, index) => {
+            this.tray.sendAction({
+                type: 'update-item',
+                item: {
+                    ...items[index],
+                    enabled: item,
+                },
+                seq_id: index,
+            });
+        });
     }
 }
 

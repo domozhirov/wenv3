@@ -1,4 +1,4 @@
-import {homedir} from 'os';
+const {homedir} = require('os');
 
 module.exports = {
   "httpPort": 3000,

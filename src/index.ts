@@ -1,6 +1,8 @@
-import App from './core/app';
 import config from './bootstrap/config';
+import Server from './core/server';
+import App from './core/app';
 
-const app = new App(config);
+const server = new Server(config);
+const app = new App(server, config);
 
 app.run();

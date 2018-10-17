@@ -1,13 +1,15 @@
 {
   "name": "wenv3",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "Web Enviroment",
   "main": "dist/index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch --mode=development",
-    "build": "webpack --mode=production && cp package.json dist/"
+    "watch": "tsc -w",
+    "build": "tsc && cp package.json dist/",
+    "start": "npm run build && electron ./dist/index.js",
+    "package": "npm run build && cd dist && npm i --production"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "chokidar": "^2.0.4",
+    "electron": "^3.0.4",
     "fs-extra": "^7.0.0",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
@@ -56,6 +59,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
+    "electron-packager": "^12.2.0",
     "ts-loader": "^5.2.1",
     "typescript": "^3.0.3",
     "webpack": "^4.20.2",
