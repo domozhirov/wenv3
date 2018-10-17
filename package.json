@@ -56,18 +56,11 @@
     "@types/request": "^2.47.1",
     "@types/serve-index": "^1.7.29",
     "@types/socket.io": "^1.4.38",
-    "@types/webpack-env": "^1.13.6",
-    "clean-webpack-plugin": "^0.1.19",
-    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
-    "electron-packager": "^12.2.0",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
     "gulp-typescript": "^5.0.0-alpha.3",
-    "ts-loader": "^5.2.1",
     "typescript": "^3.0.3",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1"
   },
   "engines": {
     "node": ">=4.0.0"
