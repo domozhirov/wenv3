@@ -1,3 +1,5 @@
+import {join} from "path";
+
 export = {
     tray: [
         {
@@ -29,5 +31,15 @@ export = {
             checked: false,
             enabled: true
         }
-    ]
+    ],
+
+    routes: {
+        body: join(__dirname, `../routes/body`),
+        error: join(__dirname, `../routes/error`),
+        custom: {},
+        list: join(__dirname, `../routes/list`),
+        static: join(__dirname, `../routes/static`),
+    },
+
+    plugins: {}
 }

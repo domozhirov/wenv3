@@ -1,5 +1,12 @@
 import Event from './event';
 import * as Koa from "koa";
+import {traverse} from "./utils";
+
+declare module "koa" {
+    interface Context extends Koa.BaseContext {
+        config?: any;
+    }
+}
 
 class Server {
     public event: Event = new Event;
@@ -11,8 +18,18 @@ class Server {
     private config;
 
     public constructor(config) {
-        config.routes.forEach(route => {
-            this.koa.use(require( `../routes/${route}`));
+        this.koa.use(async (ctx, next) => {
+            ctx.config = config;
+
+            next()
+        });
+
+        traverse(config.app.routes, (route, path) => {
+            try {
+                this.koa.use(require(path))
+            } catch (e) {
+                console.log(`Route "${route}" not required`);
+            }
         });
 
         this.config = config;

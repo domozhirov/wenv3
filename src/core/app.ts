@@ -1,13 +1,17 @@
 import SysTray from 'systray'
 import Server from "./server";
 import Config from "./config";
+import Settings from "./settings";
 import {join} from "path";
 import {readFileSync} from "fs";
+import opn = require("opn")
 
 class App {
     public static config: Config;
 
     public server: Server;
+
+    public settings: Settings;
 
     private tray: SysTray;
 
@@ -25,6 +29,8 @@ class App {
                 items: this.config.app.tray
             }
         });
+
+        this.settings = Settings.getInstance();
     }
 
     public run() {
@@ -37,8 +43,13 @@ class App {
                     this._changeAction('disable');
                     await this.server[title]();
                     this._changeAction(title);
+
+                    if (action.seq_id === 0) {
+                        await opn(`http://127.0.0.1:${this.config.server.httpPort}`);
+                    }
                     break;
                 case 3:
+                    await opn(`http://127.0.0.1:${this.config.server.httpPort}/settings`);
                     break;
                 case 4:
                     this.tray.kill();

@@ -6,11 +6,9 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "tsc -w",
-    "build": "tsc && cp package.json dist/",
-    "start": "npm run build && electron ./dist/index.js",
-    "gulp": "gulp",
-    "package": "npm run build && cd dist && npm i --production"
+    "build": "gulp",
+    "dev": "gulp --watch",
+    "package": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -27,6 +25,7 @@
     "chokidar": "^2.0.4",
     "electron": "^3.0.4",
     "fs-extra": "^7.0.0",
+    "get-port": "^4.0.0",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
     "koa-router": "^7.4.0",
@@ -44,6 +43,7 @@
   "devDependencies": {
     "@types/chokidar": "^1.7.5",
     "@types/fs-extra": "^5.0.4",
+    "@types/get-port": "^4.0.0",
     "@types/js-cookie": "^2.2.0",
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.32",
@@ -60,7 +60,7 @@
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
     "gulp-typescript": "^5.0.0-alpha.3",
-    "typescript": "^3.0.3",
+    "typescript": "^3.0.3"
   },
   "engines": {
     "node": ">=4.0.0"

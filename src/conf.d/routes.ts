@@ -1,6 +1,1 @@
-module.exports = [
-    "error",
-    "custom",
-    "list",
-    "static"
-];
+module.exports = {};
