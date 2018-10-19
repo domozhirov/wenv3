@@ -21,14 +21,14 @@ class Server {
         this.koa.use(async (ctx, next) => {
             ctx.config = config;
 
-            next()
+            await next();
         });
 
         traverse(config.app.routes, (route, path) => {
             try {
                 this.koa.use(require(path))
             } catch (e) {
-                console.log(`Route "${route}" not required`);
+                console.log(`Route "${route}" not required. Message: ${e.message}`);
             }
         });
 
@@ -38,7 +38,7 @@ class Server {
     public async start() {
         return new Promise((resolve, reject) => {
             try {
-                this.server = this.koa.listen(this.config.server.httpPort, "localhost",() => {
+                this.server = this.koa.listen(this.config.server.httpPort, "localhost", () => {
                     resolve(true);
                 });
             } catch (e) {

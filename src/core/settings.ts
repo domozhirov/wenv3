@@ -1,5 +1,13 @@
 import * as Koa from 'koa';
 import * as getPort from "get-port";
+import views = require('koa-views');
+import {join} from "path";
+
+declare module "koa" {
+    interface Context extends Koa.BaseContext {
+        config?: any;
+    }
+}
 
 class Settings {
     public static dir: string = `wenv3/`;
@@ -8,9 +16,9 @@ class Settings {
 
     public static instance: Settings;
 
-    public port = 3000;
+    public port = 3001;
 
-    public socketPort: number = 3001;
+    public socketPort: number = 3002;
 
     public projectDir: string = `/`;
 
@@ -23,13 +31,18 @@ class Settings {
     // private port;
 
     constructor() {
+        this.server.use(views(join(__dirname, '../static/views'), {
+            map: {
+                html: 'underscore'
+            }
+        }));
+
+        this.server.use(require('../routes/settings'));
+
         (async () => {
-            this.port = await getPort();
-            console.log(this.port);
+            this.port = await getPort({port: [3003, 3004, 3005]});
             this.server.listen(this.port);
         })();
-
-        Settings.instance = this;
     }
 
     public static getInstance(): Settings {

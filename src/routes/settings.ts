@@ -2,27 +2,29 @@ import * as fs from "fs";
 import {Context} from 'koa';
 import * as Router from "koa-router";
 import * as send from "koa-send";
-import Settings from '../core/settings'
-import * as path from "path";
+// import Settings from '../core/settings'
+import {join} from "path";
 
 const router = new Router();
-const settings = Settings.getInstance();
+// const settings = Settings.getInstance();
+
+
 
 router.get(/^\/settings\/?(css|js)?\/?(.+\.(js|css)$)?/, async (ctx: Context) => {
-    const file = ctx.request.path.replace(/\/+$/, "");
-    const root = path.join(__dirname, 'static/views');
+    const path = ctx.request.path.replace(/\/+$/, "");
+    const root = join(__dirname, '../static/views');
 
-    if (file === '/settings') {
+    if (path === '/settings') {
         ctx.type = "text/html";
 
         await ctx.render('settings/index', {
-            settings: settings
+            settings: {}
         });
-    } else if (file.search(/(css|js)$/g) !== -1) {
-        const exist = fs.existsSync(`${root}${file}`);
+    } else if (path.search(/(css|js)$/g) !== -1) {
+        const exist = fs.existsSync(`${root}${path}`);
 
         if (exist) {
-            await send(ctx, file, { root:  root });
+            await send(ctx, path, { root:  root });
         }
     }
 });
@@ -38,7 +40,7 @@ router.post('/settings',async (ctx: Context) => {
     } catch (e) {
         ctx.body = JSON.stringify({
             error: {
-                message: new Error(e)
+                message: e
             }
         });
     }

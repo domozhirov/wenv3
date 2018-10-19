@@ -49,7 +49,7 @@ class App {
                     }
                     break;
                 case 3:
-                    await opn(`http://127.0.0.1:${this.config.server.httpPort}/settings`);
+                    await opn(`http://127.0.0.1:${this.settings.port}/settings`);
                     break;
                 case 4:
                     this.tray.kill();

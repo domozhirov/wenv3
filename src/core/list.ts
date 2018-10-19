@@ -3,11 +3,11 @@ import * as fs from "fs";
 import {Context} from "koa";
 import * as originalServeIndex from "serve-index";
 
-export default function(root: string, options: object = {}) {
-    const fn = originalServeIndex(root, options);
-
+export default function(root: string = '', options: object = {}) {
     return async (ctx: Context, next: () => void) => {
-        const path = `${root}${ctx.path}`;
+        const projectDir = root ? root : ctx.config.server.projectDir;
+        const fn = originalServeIndex(projectDir, options);
+        const path = `${projectDir}${ctx.path}`;
         const exist = fs.existsSync(path);
 
         if (exist && fs.statSync(path).isDirectory()) {
