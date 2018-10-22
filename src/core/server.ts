@@ -26,7 +26,11 @@ class Server {
 
         traverse(config.app.routes, (route, path) => {
             try {
-                this.koa.use(require(path))
+                if (route === 'custom') {
+                    console.log('ok');
+                } else {
+                    this.koa.use(require(path))
+                }
             } catch (e) {
                 console.log(`Route "${route}" not required. Message: ${e.message}`);
             }

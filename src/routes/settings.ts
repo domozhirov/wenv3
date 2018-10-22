@@ -2,13 +2,9 @@ import * as fs from "fs";
 import {Context} from 'koa';
 import * as Router from "koa-router";
 import * as send from "koa-send";
-// import Settings from '../core/settings'
 import {join} from "path";
 
 const router = new Router();
-// const settings = Settings.getInstance();
-
-
 
 router.get(/^\/settings\/?(css|js)?\/?(.+\.(js|css)$)?/, async (ctx: Context) => {
     const path = ctx.request.path.replace(/\/+$/, "");
@@ -18,7 +14,7 @@ router.get(/^\/settings\/?(css|js)?\/?(.+\.(js|css)$)?/, async (ctx: Context) =>
         ctx.type = "text/html";
 
         await ctx.render('settings/index', {
-            settings: {}
+            server: ctx.config.server
         });
     } else if (path.search(/(css|js)$/g) !== -1) {
         const exist = fs.existsSync(`${root}${path}`);
@@ -30,7 +26,10 @@ router.get(/^\/settings\/?(css|js)?\/?(.+\.(js|css)$)?/, async (ctx: Context) =>
 });
 
 router.post('/settings',async (ctx: Context) => {
-    let body = ctx.request.body;
+    const body = ctx.request.body;
+
+
+    ctx.config[body.section] = JSON.parse(body.data);
 
     try {
         // settings.set(body);

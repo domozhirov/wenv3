@@ -5,78 +5,75 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Settings</title>
+    <title>Wenv - Settings</title>
     <link rel="stylesheet" href="/settings/css/bootstrap.min.css">
     <link rel="stylesheet" href="/settings/css/settings.css">
 </head>
 <body>
-<div class="container">
-    <div class="py-5 text-center">
-        <div class="logo m-auto" style="height: 72px; width: 72px;"></div>
-        <h2>Wenv3</h2>
-        <p class="lead"></p>
-    </div>
-
-    <div class="alert alert-success" role="alert" hidden>
-        Settings have changed. Please restart Wenv ...
-    </div>
-
-    <div class="row">
+<div class="container py-4 d-flex flex-column" role="tabpanel">
+    <div class="row flex-fill">
+        <div class="col-3">
+            <div class="list-group nav-tabs" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active show" id="list-app-list" data-toggle="tab" href="#list-app" role="tab" aria-controls="list-home" aria-selected="true">Application</a>
+                <a class="list-group-item list-group-item-action" id="list-routes-list" data-toggle="tab" href="#list-routes" role="tab" aria-controls="list-profile" aria-selected="false">Routes</a>
+                <a class="list-group-item list-group-item-action" id="list-plugins-list" data-toggle="tab" href="#list-plugins" role="tab" aria-controls="list-profile" aria-selected="false">Plugins</a>
+            </div>
+        </div>
         <div class="col">
-            <h4 class="mb-3">Settings</h4>
-            <form class="needs-validation" novalidate="" action="/settings" method="post">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="port">Port</label>
-                        <input class="form-control" id="port" name="port" placeholder="" value="<%- settings.port %>" required="" type="number">
-                        <div class="invalid-feedback">
-                            Valid port is required.
+            <div class="tab-content" id="nav-tabContent">
+                <form class="tab-pane fade active show needs-validation" id="list-app" role="tabpanel" aria-labelledby="list-app-list"  novalidate="" action="/settings" method="post" data-section="server">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="httpPort">Port</label>
+                            <input class="form-control" id="httpPort" name="httpPort" placeholder="" value="<%- server.httpPort %>" required="" type="number">
+                            <div class="invalid-feedback">
+                                Valid port is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="socketPort">Socket Port</label>
+                            <input class="form-control" id="socketPort" name="socketPort" placeholder="" value="<%- server.socketPort %>" required="" type="number">
+                            <div class="invalid-feedback">
+                                Valid socket port is required.
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="socketPort">Socket Port</label>
-                        <input class="form-control" id="socketPort" name="socketPort" placeholder="" value="<%- settings.socketPort %>" required="" type="number">
+                    <div class="mb-3">
+                        <label for="projectDir">Project Directory</label>
+                        <input type="text" class="form-control" id="projectDir" name="projectDir" required value="<%- server.projectDir %>">
                         <div class="invalid-feedback">
-                            Valid socket port is required.
+                            Enter your project directory.
                         </div>
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="projectDir">Project Directory</label>
-                    <input type="text" class="form-control" id="projectDir" name="projectDir" required value="<%- settings.projectDir %>">
-                    <div class="invalid-feedback">
-                        Enter your project directory.
+                    <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" id="livereload" name="livereload" value="<% if (server.livereload) { %>1<% } else { %>0<% } %>" onchange="this.value=~~this.checked" type="checkbox"<% if (server.livereload) { %> checked<% } %>>
+                        <label class="custom-control-label" for="livereload">Live reload</label>
                     </div>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary" type="submit">Save settings</button>
+                </form>
+                <div class="tab-pane fade" id="list-routes" role="tabpanel" aria-labelledby="list-routes-list">
+                    323132132
                 </div>
-
-                <div class="d-block my-3">
-                    <label for="renderer">Renderer</label>
-                    <select class="custom-select d-block w-100" id="renderer">
-                        <option value="">Coming soon...</option>
-                    </select>
-                    <!--<div class="invalid-feedback">-->
-                        <!--Please select a valid country.-->
-                    <!--</div>-->
+                <div class="tab-pane fade" id="list-plugins" role="tabpanel" aria-labelledby="list-plugins-list">
+                    dwadwad
                 </div>
-                <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" id="live" name="live" type="checkbox"<% if (settings.live) { %> checked<% } %>>
-                    <label class="custom-control-label" for="live">Live reload</label>
-                </div>
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Save settings</button>
-            </form>
+            </div>
         </div>
     </div>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">© 2015-2018 Web Environment</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="mailto:michael@domozhirov.ru">Support</a></li>
-        </ul>
-    </footer>
+    <div class="row">
+        <div class="col">
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">© 2015-2018 Wenv</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="mailto:michael@domozhirov.ru">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+    </div>
 </div>
+<script src="/settings/js/jquery-3.3.1.min.js"></script>
 <script src="/settings/js/bootstrap.min.js"></script>
 <script src="/settings/js/settings.js"></script>
 </body>

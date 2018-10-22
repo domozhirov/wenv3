@@ -6,18 +6,16 @@ import * as path from "path";
 import cache from "../core/cache";
 import Settings from '../core/settings';
 
-const settings = Settings.getInstance();
-
 const router: Router = new Router();
-const dir: string = settings.projectDir;
 
 export default router.all(/.+\.scss?(\.css)(?:\?.*)?/, async (ctx: Context, next) => {
+    const dir = ctx.config.server.projectDir;
     const url: string = ctx.request.path.replace(/\.css$/, "");
     const file: string = path.join(dir, url);
     const exist: boolean = fs.existsSync(file);
 
     if (exist) {
-        const result = await compileSass(url, {
+        const result = await compileSass(dir, url, {
             file: file,
             omitSourceMapUrl: true,
         });
@@ -28,7 +26,7 @@ export default router.all(/.+\.scss?(\.css)(?:\?.*)?/, async (ctx: Context, next
     }
 }).routes();
 
-async function compileSass(url: string, options: Options): Promise<any> {
+async function compileSass(dir, url: string, options: Options): Promise<any> {
     return new Promise((resolve, reject) => {
         options.importer = (file, prev, done) => {
             if (file.indexOf("compass") === 0) {

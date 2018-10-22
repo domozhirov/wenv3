@@ -30,7 +30,7 @@ class App {
             }
         });
 
-        this.settings = Settings.getInstance();
+        this.settings = new Settings(config);
     }
 
     public run() {

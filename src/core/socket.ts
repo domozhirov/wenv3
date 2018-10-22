@@ -2,9 +2,9 @@ import * as chokidar from "chokidar";
 import {Server} from "http";
 import * as _ from "lodash";
 import * as socket from "socket.io";
-import Settings from './settings';
+// import Settings from './settings';
 
-const settings = Settings.getInstance();
+// const settings = Settings.getInstance();
 
 // const dir: string = settings.projectDir;
 let isReady: boolean = false;

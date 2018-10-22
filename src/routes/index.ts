@@ -2,12 +2,10 @@ import * as fs from "fs";
 import {Context} from "koa";
 import Settings from '../core/settings';
 
-const settings = Settings.getInstance();
-
 export default async (ctx: Context, next: () => void) => {
     const extensions: string[] = ["html", "htm", "tpl"];
     const uri: string = ctx.request.url.replace(/\/+$/, "");
-    const dir: string = settings.projectDir;
+    const dir: string = ctx.config.server.projectDir;
     let ind: string;
     let exist: boolean;
     let i: number;

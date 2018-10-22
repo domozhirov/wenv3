@@ -40,6 +40,4 @@ export = {
         list: join(__dirname, `../routes/list`),
         static: join(__dirname, `../routes/static`),
     },
-
-    plugins: {}
 }

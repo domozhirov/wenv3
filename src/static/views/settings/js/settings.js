@@ -1,11 +1,11 @@
-(function() {
+(function () {
     class HTTP {
         static async _fetch(url, method, body, timeout = 400) {
             let params = {
                 method: method,
                 credentials: "same-origin",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
                 },
                 timeout: timeout
             };
@@ -39,27 +39,88 @@
     const form = document.querySelector('form');
 
     form.addEventListener('submit', event => {
-        let body = [];
+        const section = form.dataset.section;
+        let data = {};
+        let value;
+
+        if (!section) return;
 
         for (let element of form.elements) {
-            switch (element.name) {
-                case 'port':
-                case 'live':
-                case 'socketPort':
-                    body.push(`${element.name}=${~~element.value}`);
+            if (!element.value) continue;
+
+            switch (element.type) {
+                case 'number':
+                    value = ~~element.value;
                     break;
-                case 'projectDir':
-                    body.push(`${element.name}=${element.value}`);
+                case 'checkbox':
+                case 'radio':
+                    value = element.value === '1';
                     break;
+                default:
+                    value = element.value;
             }
+
+            data[element.name] = value;
         }
 
-        HTTP.post('/settings', body.join('&')).then(response => {
+        HTTP.post('/settings', `section=${section}&data=${JSON.stringify(data)}`).then(response => {
             if (response.result === 'saved') {
                 document.querySelector('.alert').removeAttribute('hidden');
             }
         });
 
         event.preventDefault();
-    })
+    });
 })();
+
+
+//
+// const data = new FormData;
+// let value;
+//
+// for (let element of form.elements) {
+//     if (!element.value) continue;
+//
+//     switch (element.type) {
+//         case 'number':
+//             value = ~~element.value;
+//             break;
+//         case 'checkbox':
+//         case 'radio':
+//             value = element.value === '1';
+//             break;
+//         default:
+//             value = element.value;
+//     }
+//
+//     data.set(element.name, value);
+// }
+// console.log(data);
+
+// HTTP.post('/settings', `data=${JSON.stringify(body)}`).then(response => {
+//     if (response.result === 'saved') {
+//         document.querySelector('.alert').removeAttribute('hidden');
+//     }
+// });
+
+
+// var data = new URLSearchParams();
+// let value;
+//
+// for (let element of form.elements) {
+//     if (!element.value) continue;
+//
+//     switch (element.type) {
+//         case 'number':
+//             value = ~~element.value;
+//             break;
+//         case 'checkbox':
+//         case 'radio':
+//             value = element.value === '1';
+//             break;
+//         default:
+//             value = element.value;
+//     }
+//
+//     // body.push(`${element.name}=${value}`)
+//     data.append(element.name, value);
