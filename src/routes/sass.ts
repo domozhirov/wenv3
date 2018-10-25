@@ -8,7 +8,7 @@ import Settings from '../core/settings';
 
 const router: Router = new Router();
 
-export default router.all(/.+\.scss?(\.css)(?:\?.*)?/, async (ctx: Context, next) => {
+export = router.all(/.+\.scss?(\.css)(?:\?.*)?/, async (ctx: Context, next) => {
     const dir = ctx.config.server.projectDir;
     const url: string = ctx.request.path.replace(/\.css$/, "");
     const file: string = path.join(dir, url);

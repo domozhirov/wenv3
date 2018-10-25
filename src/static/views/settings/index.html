@@ -11,17 +11,21 @@
 </head>
 <body>
 <div class="container py-4 d-flex flex-column" role="tabpanel">
-    <div class="row flex-fill">
+    <div class="row flex-fill pt-3">
         <div class="col-3">
-            <div class="list-group nav-tabs" id="list-tab" role="tablist">
+            <div class="list-group" id="list-tab" role="tablist">
                 <a class="list-group-item list-group-item-action active show" id="list-app-list" data-toggle="tab" href="#list-app" role="tab" aria-controls="list-home" aria-selected="true">Application</a>
                 <a class="list-group-item list-group-item-action" id="list-routes-list" data-toggle="tab" href="#list-routes" role="tab" aria-controls="list-profile" aria-selected="false">Routes</a>
                 <a class="list-group-item list-group-item-action" id="list-plugins-list" data-toggle="tab" href="#list-plugins" role="tab" aria-controls="list-profile" aria-selected="false">Plugins</a>
+                <a class="list-group-item list-group-item-action" id="list-system-list" data-toggle="tab" href="#list-system" role="tab" aria-controls="list-profile" aria-selected="false">System</a>
             </div>
         </div>
         <div class="col">
             <div class="tab-content" id="nav-tabContent">
                 <form class="tab-pane fade active show needs-validation" id="list-app" role="tabpanel" aria-labelledby="list-app-list"  novalidate="" action="/settings" method="post" data-section="server">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Application</h1>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="httpPort">Port</label>
@@ -53,12 +57,47 @@
                     <hr class="mb-4">
                     <button class="btn btn-primary" type="submit">Save settings</button>
                 </form>
-                <div class="tab-pane fade" id="list-routes" role="tabpanel" aria-labelledby="list-routes-list">
-                    323132132
-                </div>
+                <form class="tab-pane fade" id="list-routes" role="tabpanel" aria-labelledby="list-routes-list">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Routes</h1>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-success" disabled type="button">Install</button>
+                        </div>
+                        <div class="custom-file">
+                            <input class="custom-file-input" id="inputGroupFile01" type="file">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                    <ul class="list-group py-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            HTML
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Smarty
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            S3 Cacher
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </li>
+                    </ul>
+                </form>
                 <div class="tab-pane fade" id="list-plugins" role="tabpanel" aria-labelledby="list-plugins-list">
-                    dwadwad
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Plugins</h1>
+                    </div>
+                    Coming soon...
                 </div>
+                <form class="tab-pane fade" id="list-system" role="tabpanel" aria-labelledby="list-system-list">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2">System</h1>
+                    </div>
+                    <button class="btn btn-info">Clear cache</button>
+                    <button class="btn btn-danger">Factory reset</button>
+                </form>
             </div>
         </div>
     </div>

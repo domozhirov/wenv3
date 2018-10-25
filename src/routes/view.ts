@@ -4,7 +4,7 @@ import * as Router from "koa-router";
 
 const router: Router = new Router();
 
-export default router.all(/.+\.(htm|html|tpl)(\?.*)?/, async (ctx: Context) => {
+export = router.all(/.+\.(htm|html|tpl)(\?.*)?/, async (ctx: Context) => {
     const file: string = ctx.request.path.replace(/\/+$/, "");
 
     ctx.type = "text/html";
