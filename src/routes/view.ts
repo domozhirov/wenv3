@@ -11,7 +11,7 @@ export = router.all(/.+\.(htm|html|tpl)(\?.*)?/, async (ctx: Context) => {
 
     let body: string = fs.readFileSync(`${ctx.config.server.projectDir}${file}`, "utf8");
 
-    if (ctx.config.server.livereload && body) {
+    if (body) {
         body = body.replace("</body>", `\n<script src="/live.min.js"></script>\n</body>`);
     }
 

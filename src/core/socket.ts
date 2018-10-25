@@ -18,7 +18,6 @@ export default (server: Server, config) => {
         io.emit("reload", "css");
     }, 500);
 
-
     const watcher = chokidar.watch(config.server.projectDir, {
         ignorePermissionErrors: true,
         ignored: /[\/\\]\./,
@@ -30,7 +29,7 @@ export default (server: Server, config) => {
     });
 
     watcher.on("all", (e, file) => {
-        if (isReady && (e === "add" || e === "change" || e === "unlink")) {
+        if (config.server.livereload && isReady && (e === "add" || e === "change" || e === "unlink")) {
             if (/(\.scss|.css)$/.test(file)) {
                 reloadCSS();
             } else {
