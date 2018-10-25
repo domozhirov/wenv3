@@ -20,6 +20,8 @@ class Server {
 
     private config;
 
+    private connections = {};
+
     public constructor(config) {
         this.config = config;
     }
@@ -49,6 +51,16 @@ class Server {
                 this.server = this.koa.listen(this.config.server.httpPort, "localhost", () => {
                     resolve(true);
                     socket(this.server, this.config);
+
+                    this.server.on('connection', (conn) =>{
+                        const key = conn.remoteAddress + ':' + conn.remotePort;
+
+                        this.connections[key] = conn;
+
+                        conn.on('close', () => {
+                            delete this.connections[key];
+                        });
+                    });
                 });
             } catch (e) {
                 reject(`Port "${this.config.server.httpPort}" is used`);
@@ -60,8 +72,13 @@ class Server {
         return new Promise((resolve, reject) => {
             try {
                 if (this.server) {
+                    for (let key in this.connections) {
+                        this.connections[key].destroy();
+                    }
+
                     this.server.close(() => {
                         this.koa.middleware = [];
+
                         resolve(true);
                     });
                 } else {

@@ -37,4 +37,9 @@ export default (server: Server, config) => {
             }
         }
     });
+
+    server.on('close', () => {
+        watcher.close();
+        io.close();
+    });
 };
