@@ -22,18 +22,18 @@ class Config implements ProxyHandler<{}> {
     }
 
     public get(target: Config, property: string) {
-        let config = this._main[property] || {};
+        let config = this._main[property] || null;
         let part = join(this._configDir, `${property}.js`);
 
         if (existsSync(part)) {
             this._origin[property] || (this._origin[property] = require(part));
 
-            if (Object.keys(config).length) {
-                config = Object.assign(this._origin[property], config);
+            if (config) {
+                config = Object.assign({}, this._origin[property], config);
             } else {
-                config = this._origin[property];
+                config = Object.assign({}, this._origin[property]);
             }
-        } else if (!Object.keys(config).length) {
+        } else if (!config) {
             throw new Error(`Configuration property ${property} not found`);
         }
 

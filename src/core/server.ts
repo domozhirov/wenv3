@@ -1,6 +1,7 @@
 import Event from './event';
 import * as Koa from "koa";
 import cache from './cache';
+import socket from './socket';
 import {traverse} from "./utils";
 
 declare module "koa" {
@@ -47,6 +48,7 @@ class Server {
             try {
                 this.server = this.koa.listen(this.config.server.httpPort, "localhost", () => {
                     resolve(true);
+                    socket(this.server, this.config);
                 });
             } catch (e) {
                 reject(`Port "${this.config.server.httpPort}" is used`);
