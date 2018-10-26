@@ -1,10 +1,9 @@
 import * as fs from "fs";
 import {Context} from "koa";
 import * as Router from "koa-router";
-import {Options, render, Result} from "node-sass";
+import {Options, render} from "node-sass";
 import * as path from "path";
 import cache from "../core/cache";
-import Settings from '../core/settings';
 
 const router: Router = new Router();
 

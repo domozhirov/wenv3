@@ -5,7 +5,7 @@ import * as request from "request";
 import {resolve} from "url";
 
 export default async (file: string, url: string): Promise<any> => {
-    const local: string = path.join(require('os').tmpdir(), file);
+    const local: string = path.join(require('os').tmpdir(), 'ru.megagroup.wenv3', file);
 
     if (fs.existsSync(local)) {
         return Promise.resolve(local);

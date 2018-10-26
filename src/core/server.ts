@@ -7,7 +7,7 @@ import {traverse} from "./utils";
 declare module "koa" {
     interface Context extends Koa.BaseContext {
         config?: any;
-        cacher: any
+        cache?: any
     }
 }
 
@@ -29,7 +29,7 @@ class Server {
     public async start() {
         this.koa.use(async (ctx, next) => {
             ctx.config = this.config;
-            ctx.cacher = cache;
+            ctx.cache = cache;
 
             await next();
         });
