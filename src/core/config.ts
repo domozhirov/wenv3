@@ -1,6 +1,6 @@
 import {ensureDirSync, existsSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';
-import {updatedDiff} from "deep-object-diff";
+import * as deepObjectDiff from "deep-object-diff";
 
 class Config implements ProxyHandler<{}> {
 
@@ -45,7 +45,7 @@ class Config implements ProxyHandler<{}> {
         let diff;
 
         if (existsSync(part)) {
-            diff = updatedDiff(this._origin[property] || (this._origin[property] = require(part)), value);
+            diff = deepObjectDiff.diff(this._origin[property] || (this._origin[property] = require(part)), value);
         } else {
             throw new Error(`Configuration property ${property} not found`);
         }

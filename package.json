@@ -25,6 +25,7 @@
     "chokidar": "^2.0.4",
     "deep-object-diff": "^1.1.0",
     "electron": "^3.0.4",
+    "extract-zip": "^1.6.7",
     "fs-extra": "^7.0.0",
     "get-port": "^4.0.0",
     "koa": "^2.5.3",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@types/chokidar": "^1.7.5",
+    "@types/extract-zip": "^1.6.2",
     "@types/fs-extra": "^5.0.4",
     "@types/get-port": "^4.0.0",
     "@types/js-cookie": "^2.2.0",
