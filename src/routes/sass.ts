@@ -40,10 +40,10 @@ async function compileSass(dir, url: string, options: Options): Promise<any> {
                     done(err);
                 });
             } else if (file.indexOf("local:") === 0) {
-                url  = url.slice(0, url.indexOf("/images/"));
+                const uri = url.slice(0, url.indexOf("/images/"));
                 file = file.slice(6);
 
-                done({file: path.join(dir, url, "images", file)});
+                done({file: path.join(dir, uri, "images", file)});
             } else {
                 done({file: path.join(dir, file)});
             }
