@@ -1,17 +1,18 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
+const argv = require('yargs').argv;
 
+require('./tasks/clean.task');
 require('./tasks/typescripts.task');
 require('./tasks/static.task');
+require('./tasks/watch.task');
 
-gulp.task('default', [], function() {
-    gulp.start('typescripts', 'static', 'watch');
-});
+gulp.task('default', ['clean'], () => {
+    const args = ['typescripts', 'static'];
 
-gulp.task('watch', () => {
-    // Watch .ts files
-    gulp.watch('src/**/*.ts', ['typescripts']);
+    if (argv.watch) {
+        args.push('watch');
+    }
 
-    // Watch .any files
-    gulp.watch('src/static/**/*', ['static']);
+    gulp.start.apply(gulp, args);
 });
