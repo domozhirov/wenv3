@@ -4,6 +4,7 @@ import * as Router from "koa-router";
 import {Options, render} from "node-sass";
 import * as path from "path";
 import cache from "../core/cache";
+import {dirname} from "path";
 
 const router: Router = new Router();
 
@@ -45,7 +46,9 @@ async function compileSass(dir, url: string, options: Options): Promise<any> {
 
                 done({file: path.join(dir, uri, "images", file)});
             } else {
-                done({file: path.join(dir, file)});
+                const uri = dirname(url);
+
+                done({file: path.join(dir, uri, file)});
             }
         };
 
