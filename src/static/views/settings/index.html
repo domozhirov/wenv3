@@ -55,6 +55,11 @@
                         <label class="custom-control-label" for="livereload">Live reload</label>
                     </div>
                     <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" id="public" name="public" value="<% if (server.public) { %>1<% } else { %>0<% } %>" onchange="this.value=~~this.checked" type="checkbox"<% if (server.public) { %> checked<% } %>>
+                        <label class="custom-control-label" for="public">Public ip address</label>
+                    </div>
+                    <hr class="mb-4">
                     <button class="btn btn-primary" type="submit">Save settings</button>
                 </form>
                 <form class="tab-pane fade" id="list-routes" role="tabpanel" aria-labelledby="list-routes-list" action="/routes/install" method="post" enctype="multipart/form-data">
@@ -77,18 +82,6 @@
                                 <button type="button" class="btn btn-danger" data-route="<%- key %>">Delete</button>
                             </li>
                         <% }); %>
-                        <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
-                            <!--HTML-->
-                            <!--<button type="button" class="btn btn-danger">Delete</button>-->
-                        <!--</li>-->
-                        <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
-                            <!--Smarty-->
-                            <!--<button type="button" class="btn btn-danger">Delete</button>-->
-                        <!--</li>-->
-                        <!--<li class="list-group-item d-flex justify-content-between align-items-center">-->
-                            <!--S3 Cacher-->
-                            <!--<button type="button" class="btn btn-danger">Delete</button>-->
-                        <!--</li>-->
                     </ul>
                 </form>
                 <div class="tab-pane fade" id="list-plugins" role="tabpanel" aria-labelledby="list-plugins-list">

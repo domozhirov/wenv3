@@ -1,6 +1,6 @@
 {
   "name": "wenv3",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Web Enviroment",
   "main": "dist/index.js",
   "private": true,
@@ -27,6 +27,7 @@
     "extract-zip": "^1.6.7",
     "fs-extra": "^7.0.0",
     "get-port": "^4.0.0",
+    "ip": "^1.1.5",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
     "koa-router": "^7.4.0",
@@ -46,6 +47,7 @@
     "@types/extract-zip": "^1.6.2",
     "@types/fs-extra": "^5.0.4",
     "@types/get-port": "^4.0.0",
+    "@types/ip": "0.0.32",
     "@types/js-cookie": "^2.2.0",
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.32",

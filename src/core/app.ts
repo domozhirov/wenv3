@@ -45,13 +45,14 @@ class App {
                     this._changeAction(title);
 
                     if (action.seq_id === 0) {
-                        await opn(`http://127.0.0.1:${this.config.server.httpPort}`);
+                        await opn(`http://${this.server.hostname}:${this.config.server.httpPort}`);
                     }
                     break;
                 case 3:
                     await opn(`http://127.0.0.1:${this.settings.port}/settings`);
                     break;
                 case 4:
+                    await this.server.stop();
                     this.tray.kill();
                     break;
             }

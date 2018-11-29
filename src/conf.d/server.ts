@@ -5,4 +5,5 @@ module.exports = {
   "socketPort": 3001,
   "projectDir": homedir(),
   "livereload": true,
+  "public": true,
 };

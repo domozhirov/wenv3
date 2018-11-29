@@ -16,6 +16,8 @@ class Server {
 
     public koa: Koa = new Koa;
 
+    public hostname: string = 'localhost';
+
     private server;
 
     private config;
@@ -34,6 +36,8 @@ class Server {
             await next();
         });
 
+        this.hostname = this.config.server.public ? require('ip').address() : 'localhost';
+
         this.config.app.routes.custom = this.config.routes;
 
         traverse(this.config.app.routes, (route, path) => {
@@ -48,7 +52,7 @@ class Server {
 
         return new Promise((resolve, reject) => {
             try {
-                this.server = this.koa.listen(this.config.server.httpPort, "localhost", () => {
+                this.server = this.koa.listen(this.config.server.httpPort, this.hostname, () => {
                     resolve(true);
                     socket(this.server, this.config);
 
