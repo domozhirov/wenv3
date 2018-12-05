@@ -22,6 +22,8 @@ class Server {
 
     private config;
 
+    private enabled;
+
     private connections = {};
 
     public constructor(config) {
@@ -56,6 +58,7 @@ class Server {
                     resolve(true);
                     socket(this.server, this.config);
 
+                    this.enabled = true;
                     this.server.on('connection', (conn) =>{
                         const key = conn.remoteAddress + ':' + conn.remotePort;
 
@@ -82,6 +85,7 @@ class Server {
 
                     this.server.close(() => {
                         this.koa.middleware = [];
+                        this.enabled = false;
 
                         resolve(true);
                     });
@@ -98,6 +102,10 @@ class Server {
         await this.stop();
 
         return this.start();
+    }
+
+    public isEnabled() {
+        return this.enabled;
     }
 }
 

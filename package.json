@@ -2,13 +2,17 @@
   "name": "wenv3",
   "version": "3.1.1",
   "description": "Web Enviroment",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "install-app-deps",
+    "start": "npm install && electron .",
+    "pack": "build --dir",
+    "dist": "build",
     "build": "gulp --production",
     "dev": "gulp --watch",
-    "pack": "npm run build && cd dist && nodec index.js"
+    "rebuild": "electron-rebuild",
+    "test": "npm start"
   },
   "repository": {
     "type": "git",
@@ -34,12 +38,11 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",
     "lodash": "^4.17.11",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.10.0",
     "opn": "^5.1.0",
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
     "socket.io": "^2.1.1",
-    "systray": "^1.0.5",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
@@ -61,6 +64,9 @@
     "@types/serve-index": "^1.7.29",
     "@types/socket.io": "^1.4.38",
     "del": "^3.0.0",
+    "electron": "^3.0.10",
+    "electron-builder": "^20.38.2",
+    "electron-rebuild": "^1.8.2",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
     "gulp-typescript": "^5.0.0-alpha.3",
@@ -68,12 +74,29 @@
     "yargs": "^12.0.2"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=10.0.0"
   },
   "bin": {
     "wenv": "./dist/index.js"
   },
   "pre-commit": [
     "build"
-  ]
+  ],
+  "build": {
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "appId": "ru.megagroup.wenv3",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg",
+      "identity": null,
+      "icon": "./assets/icon.icns"
+    },
+    "directories": {
+      "output": "build"
+    }
+  }
 }
