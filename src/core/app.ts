@@ -94,12 +94,9 @@ class App {
                 {
                     label: 'Check update',
                     click: async () => {
-                        // const win = this.win || this._createWindow();
+                        const win = this.win || this._createWindow();
 
-
-                        const a = await autoUpdater.checkForUpdatesAndNotify();
-
-                        console.log(a);
+                        await autoUpdater.checkForUpdates();
                     }
                 },
                 {
@@ -125,10 +122,6 @@ class App {
             this.tray.setToolTip('Web Environment');
             this.tray.setContextMenu(contextMenu);
         });
-
-        setInterval(() => {
-            autoUpdater.checkForUpdates();
-        }, 60000);
     }
 
     private _getIcon() {
@@ -175,10 +168,6 @@ class App {
         //     url: 'https://github.com/domozhirov/wenv/releases/download/v3.1.1/wenv-3.1.1.dmg'
         // });
 
-        setInterval(() => {
-            autoUpdater.checkForUpdates();
-        }, 60000);
-
         autoUpdater.on('checking-for-update', () => {
             this.win.webContents.send('message', 'Checking for update...');
         });
@@ -194,8 +183,15 @@ class App {
         autoUpdater.on('download-progress', (ev, progressObj) => {
             this.win.webContents.send('message', 'Download progress...');
         });
-        autoUpdater.on('update-downloaded', (ev, info) => {
-            this.win.webContents.send('message', 'Update downloaded; will install in 5 seconds');
+        autoUpdater.on('update-downloaded', (versionInfo) => {
+            var dialogOptions = {
+                type: 'question',
+                defaultId: 0,
+                message: `The update is ready to install, Version ${versionInfo.version} has been downloaded and will be automatically installed when you click OK`
+            };
+            dialog.showMessageBox(this.win, dialogOptions, () => {
+                autoUpdater.quitAndInstall();
+            });
         });
         autoUpdater.on('update-downloaded', (ev, info) => {
             // Wait 5 seconds, then quit and install

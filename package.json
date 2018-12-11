@@ -1,6 +1,6 @@
 {
   "name": "wenv",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Web Enviroment",
   "main": "./dist/index.js",
   "private": true,
@@ -8,9 +8,8 @@
     "postinstall": "node tools/node-sass-patch && install-app-deps && HOME=~/.electron-gyp npm rebuild node-sass --force",
     "start": "electron .",
     "release:dir": "npm run build --dir",
-    "build": "electron-builder build",
+    "build": "build -p always",
     "release": "npm run dist && npm run build",
-    "publish": "npm run release -p",
     "dist": "gulp --production",
     "dev": "gulp --watch",
     "rebuild": "electron-rebuild --ignore-scripts",
