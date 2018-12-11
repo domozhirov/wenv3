@@ -2,9 +2,11 @@ import Server from "./server";
 import Config from "./config";
 import Settings from "./settings";
 import {join} from "path";
-import opn = require("opn")
+import opn = require("opn");
+import Updater from "./updater";
 
-const {app, Menu, Tray, autoUpdater, dialog} = require('electron');
+const {app, Menu, Tray, dialog, BrowserWindow} = require('electron');
+const { autoUpdater } = require("electron-updater");
 
 class App {
     public static config: Config;
@@ -17,7 +19,14 @@ class App {
 
     private config;
 
+    private updater;
+
+    private win;
+
+    public log;
+
     constructor(server: Server, config) {
+        this.updater = new Updater();
         this.server = server;
         this.config = config;
 
@@ -26,22 +35,35 @@ class App {
         // Don't show the app in the doc
         app.dock.hide();
 
+        app.on('window-all-closed', () => {
+            app.quit()
+        });
+
+        this.settings = settings;
+    }
+
+    public run() {
+        this.log = require("electron-log");
+
         app.on('ready', () => {
             this.tray = new Tray(this._getIcon());
+
+            this.log.transports.file.level = "debug";
+            autoUpdater.logger = this.log;
 
             const contextMenu = Menu.buildFromTemplate([
                 {
                     label: 'Open',
                     enabled: true,
                     click: async () => {
-                        if (!server.isEnabled()) {
-                            await server.start();
+                        if (!this.server.isEnabled()) {
+                            await this.server.start();
                             contextMenu.items[1].enabled = true;
                             contextMenu.items[2].enabled = true;
-                            await opn(`http://${server.hostname}:3000`);
+                            await opn(`http://${this.server.hostname}:3000`);
                         }
 
-                        await opn(`http://${server.hostname}:3000`);
+                        await opn(`http://${this.server.hostname}:3000`);
                     }
                 },
                 {
@@ -51,7 +73,7 @@ class App {
                         contextMenu.items[0].enabled = false;
                         contextMenu.items[1].enabled = false;
                         contextMenu.items[2].enabled = false;
-                        await server.restart();
+                        await this.server.restart();
                         contextMenu.items[0].enabled = true;
                         contextMenu.items[1].enabled = true;
                         contextMenu.items[2].enabled = true;
@@ -61,7 +83,7 @@ class App {
                     label: 'Stop',
                     enabled: false,
                     click: async () => {
-                        await server.stop();
+                        await this.server.stop();
                         contextMenu.items[1].enabled = false;
                         contextMenu.items[2].enabled = false;
                     }
@@ -70,16 +92,30 @@ class App {
                     type: 'separator',
                 },
                 {
+                    label: 'Check update',
+                    click: async () => {
+                        // const win = this.win || this._createWindow();
+
+
+                        const a = await autoUpdater.checkForUpdatesAndNotify();
+
+                        console.log(a);
+                    }
+                },
+                {
+                    type: 'separator',
+                },
+                {
                     label: 'Settings',
-                    click: async function() {
-                        await opn(`http://127.0.0.1:${settings.port}/settings`);
+                    click: async () => {
+                        await opn(`http://127.0.0.1:${this.settings.port}/settings`);
                     }
                 },
                 {
                     label: 'Exit',
                     click: async () => {
-                        if (server.isEnabled()) {
-                            await server.stop();
+                        if (this.server.isEnabled()) {
+                            await this.server.stop();
                         }
                         app.quit();
                     }
@@ -90,41 +126,9 @@ class App {
             this.tray.setContextMenu(contextMenu);
         });
 
-        app.on('window-all-closed', () => {
-            app.quit()
-        });
-
-        this.settings = settings;
-    }
-
-    public run() {
-        const server = 'https://your-deployment-url.com'
-        const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
-
-        // autoUpdater.setFeedURL(feed);
-        //
-        // setInterval(() => {
-        //     autoUpdater.checkForUpdates()
-        // }, 60000);
-        //
-        // autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-        //     const dialogOpts = {
-        //         type: 'info',
-        //         buttons: ['Restart', 'Later'],
-        //         title: 'Application Update',
-        //         message: process.platform === 'win32' ? releaseNotes : releaseName,
-        //         detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-        //     };
-        //
-        //     dialog.showMessageBox(dialogOpts, (response) => {
-        //         if (response === 0) autoUpdater.quitAndInstall()
-        //     })
-        // });
-        //
-        // autoUpdater.on('error', message => {
-        //     console.error('There was a problem updating the application')
-        //     console.error(message)
-        // });
+        setInterval(() => {
+            autoUpdater.checkForUpdates();
+        }, 60000);
     }
 
     private _getIcon() {
@@ -153,6 +157,56 @@ class App {
         iconPath = join(__dirname, `../static/${iconName}`);
 
         return iconPath;
+    }
+
+    private _createWindow() {
+        this.win = new BrowserWindow();
+        this.win.webContents.openDevTools();
+        this.win.on('closed', (event) => {
+
+            event.preventDefault();
+            app.hide();
+
+            return false;
+        });
+        this.win.loadURL(join('file://', __dirname, '..', 'static', 'views', 'version', `index.html#v${app.getVersion()}`));
+
+        // autoUpdater.setFeedURL({
+        //     url: 'https://github.com/domozhirov/wenv/releases/download/v3.1.1/wenv-3.1.1.dmg'
+        // });
+
+        setInterval(() => {
+            autoUpdater.checkForUpdates();
+        }, 60000);
+
+        autoUpdater.on('checking-for-update', () => {
+            this.win.webContents.send('message', 'Checking for update...');
+        });
+        autoUpdater.on('update-available', (ev, info) => {
+            this.win.webContents.send('message', 'Update available.');
+        });
+        autoUpdater.on('update-not-available', (ev, info) => {
+            this.win.webContents.send('message', 'Update not available.');
+        });
+        autoUpdater.on('error', (ev, err) => {
+            this.win.webContents.send('message', 'Error in auto-updater.');
+        });
+        autoUpdater.on('download-progress', (ev, progressObj) => {
+            this.win.webContents.send('message', 'Download progress...');
+        });
+        autoUpdater.on('update-downloaded', (ev, info) => {
+            this.win.webContents.send('message', 'Update downloaded; will install in 5 seconds');
+        });
+        autoUpdater.on('update-downloaded', (ev, info) => {
+            // Wait 5 seconds, then quit and install
+            // In your application, you don't need to wait 5 seconds.
+            // You could call autoUpdater.quitAndInstall(); immediately
+            setTimeout(function() {
+                autoUpdater.quitAndInstall();
+            }, 5000)
+        });
+
+        return this.win;
     }
 }
 

@@ -17,7 +17,7 @@
     "emitDecoratorMetadata": true
   },
   "include": [
-    "src/**/*",
+    "src/**/*"
   ],
   "exclude": [
     "./.history",

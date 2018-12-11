@@ -1,0 +1,7 @@
+owner: domozhirov
+repo: wenv
+token: 817a7789e0a529e33697540c182af2941074d414
+provider: github
+releaseType: release
+publishAutoUpdate: true
+updaterCacheDirName: wenv-updater

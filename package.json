@@ -1,17 +1,19 @@
 {
-  "name": "wenv3",
-  "version": "3.1.1",
+  "name": "wenv",
+  "version": "3.1.0",
   "description": "Web Enviroment",
   "main": "./dist/index.js",
   "private": true,
   "scripts": {
-    "postinstall": "install-app-deps",
-    "start": "npm install && electron .",
-    "pack": "build --dir",
-    "dist": "build",
-    "build": "gulp --production",
+    "postinstall": "node tools/node-sass-patch && install-app-deps && HOME=~/.electron-gyp npm rebuild node-sass --force",
+    "start": "electron .",
+    "release:dir": "npm run build --dir",
+    "build": "electron-builder build",
+    "release": "npm run dist && npm run build",
+    "publish": "npm run release -p",
+    "dist": "gulp --production",
     "dev": "gulp --watch",
-    "rebuild": "electron-rebuild",
+    "rebuild": "electron-rebuild --ignore-scripts",
     "test": "npm start"
   },
   "repository": {
@@ -28,9 +30,12 @@
   "dependencies": {
     "chokidar": "^2.0.4",
     "deep-object-diff": "^1.1.0",
+    "electron-log": "^2.2.17",
+    "electron-updater": "^4.0.5",
     "extract-zip": "^1.6.7",
     "fs-extra": "^7.0.0",
     "get-port": "^4.0.0",
+    "got": "^9.3.2",
     "ip": "^1.1.5",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
@@ -41,6 +46,7 @@
     "node-sass": "^4.10.0",
     "opn": "^5.1.0",
     "request": "^2.88.0",
+    "semver": "^5.6.0",
     "serve-index": "^1.9.1",
     "socket.io": "^2.1.1",
     "underscore": "^1.9.1"
@@ -50,6 +56,7 @@
     "@types/extract-zip": "^1.6.2",
     "@types/fs-extra": "^5.0.4",
     "@types/get-port": "^4.0.0",
+    "@types/got": "^9.2.1",
     "@types/ip": "0.0.32",
     "@types/js-cookie": "^2.2.0",
     "@types/koa": "^2.0.46",
@@ -83,6 +90,16 @@
     "build"
   ],
   "build": {
+    "publish": [
+      {
+        "token": "817a7789e0a529e33697540c182af2941074d414",
+        "provider": "github",
+        "repo": "wenv",
+        "owner": "domozhirov",
+        "releaseType": "release",
+        "publishAutoUpdate": true
+      }
+    ],
     "files": [
       "dist/**/*",
       "node_modules/**/*",
@@ -91,7 +108,10 @@
     "appId": "ru.megagroup.wenv3",
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "dmg",
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "identity": null,
       "icon": "./assets/icon.icns"
     },
