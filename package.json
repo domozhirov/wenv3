@@ -28,7 +28,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "node-sass": "^4.9.3",
     "opn": "^5.1.0",
     "request": "^2.88.0",
