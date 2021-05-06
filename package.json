@@ -35,7 +35,7 @@
     "serve-index": "^1.9.1",
     "socket.io": "^2.1.1",
     "systray": "^1.0.5",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "@types/chokidar": "^1.7.5",
