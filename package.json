@@ -29,7 +29,7 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",
     "lodash": "^4.17.11",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "opn": "^5.1.0",
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
